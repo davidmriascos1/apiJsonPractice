@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Taco Recipes</title>
+  <!-- Link to the stylesheet for styling the page -->
+  <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+  <!-- Main heading of the page -->
+  <h1>Taco Town 🌮</h1>
+
+  <!-- Form that allows users to select a type of taco by clicking a button -->
+  <!-- The form action "/recipe" indicates where the data should be sent on form submission -->
+  <!-- Method is POST because we want to send data to the server -->
+  <form action="/recipe" method="POST" class="buttons">
+    <!-- Button to select "chicken". This button sends the value "chicken" to the server -->
+    <button type="submit" value="chicken" name="choice">🍗</button>
+    <!-- Button to select "beef". This button sends the value "beef" to the server -->
+    <button type="submit" value="beef" name="choice">🥩</button>
+    <!-- Button to select "fish". This button sends the value "fish" to the server -->
+    <button type="submit" value="fish" name="choice">🐟</button>
+  </form>
+
+  <!-- Container that will show the recipe after a user selects a taco type -->
+  <div id="recipeContainer" class="hidden">
+    <!-- Check if there is a "recipe" variable passed from the server. we use locals. to make it defined-->
+    <% if (locals.recipe) { %>
+      <!-- If "recipe" exists, display the recipe's name -->
+      <h2><%= recipe.name %></h2>
+
+      <!-- Section to display the ingredients of the recipe -->
+      <h3>Ingredients:</h3>
+      <ul id="ingredientsList">
+        <!-- Display the protein name -->         <!-- Display how the protein is prepared -->
+        <li><%= recipe.ingredients.protein.name %>, <%= recipe.ingredients.protein.preparation %></li>
+        <!-- Display the salsa name -->  <!-- Display the spiciness level of the salsa -->
+        <li> <%= recipe.ingredients.salsa.name %>, Spsiciness <%= recipe.ingredients.salsa.spiciness %></li>
+        <!-- Iterate over each topping in the toppings array using forEach -->
+        <% recipe.ingredients.toppings.forEach((topping) => { %>
+          <!-- Display the topping's name, ingredients, and quantity -->
+          <li><strong><%= topping.name %>:</strong> <%= topping.ingredients.join(", ") %> -  <%= topping.quantity %></li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <!-- If no recipe is selected, show a default message asking the user to pick a taco -->
+      <h2>Pick your favorite taco ingredient 👆</h2>
+    <% } %>
+  </div>
+</body>
+</html>
